@@ -1,0 +1,83 @@
+{
+  "name": "typescript-microservice-boilerplate",
+  "version": "0.0.1",
+  "description": "A quick boilerplate to get started with a full typescript service",
+  "author": "Ashish Jhanwar (ashishjhanwar007@gmail.com",
+  "license": "ISC",
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/app.ts",
+    "watch": "nodemon -e ts -w ./src -i './src/workers/*' -x npm run watch:serve | bunyan",
+    "watch:serve": "NODE_ENV=development npm run start | bunyan",
+    "start:debug": "node --inspect-brk=0.0.0.0 -r ts-node/register -r tsconfig-paths/register src/app.ts",
+    "worker:run": "nodemon -e ts -w ./src/workers -x ./node_modules/.bin/ts-node -r tsconfig-paths/register",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --runInBand",
+    "test:coverage": "jest --coverage",
+    "lint": "tslint --project \"tsconfig.json\"",
+    "lint:fix": "tslint --project \"tsconfig.json\" --fix",
+    "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -n migration -d migrations",
+    "migration:create": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:create -n migration -d migrations",
+    "migration:up": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:run",
+    "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "axios": "^0.18.0",
+    "bunyan": "^1.8.12",
+    "bunyan-cloudwatch": "^2.2.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "multer": "^1.4.1",
+    "moment": "^2.24.0",
+    "pg": "^7.9.0",
+    "reflect-metadata": "^0.1.13",
+    "routing-controllers": "0.7.7",
+    "typedi": "^0.8.0",
+    "typeorm": "0.2.16",
+    "typeorm-typedi-extensions": "^0.2.3",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/bull": "^3.5.11",
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.1",
+    "@types/multer": "^1.3.7",
+    "@types/bunyan": "^1.8.6",
+    "@types/compression": "0.0.36",
+    "@types/dotenv": "^6.1.1",
+    "@types/express-handlebars": "0.0.31",
+    "@types/jest": "^24.0.11",
+    "@types/jest-diff": "^20.0.1",
+    "@types/node": "^11.13.4",
+    "@types/supertest": "^2.0.7",
+    "@types/uuid": "^3.4.4",
+    "lint-staged": "^8.1.5",
+    "eslint": "^5.16.0",
+    "eslint-config-kasa": "^0.4.0",
+    "jest": "^24.7.1",
+    "husky": "^1.3.1",
+    "nodemon": "^1.18.11",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.0.3",
+    "tsconfig-paths": "^3.8.0",
+    "tslint": "^5.15.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.4.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
+  "keywords": []
+}

@@ -1,0 +1,47 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "outDir": "build",
+        "module": "commonjs",
+        "target": "es6",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "paths": {
+            "@app": [
+                "src"
+            ],
+            "@app/*": [
+                "src/*"
+            ],
+            "@adapters":[
+                "src/adapters"
+            ],
+            "@adapters/*":[
+                "src/adapters/*"
+            ],
+            "@orm/*":[
+                "src/orm/*"
+            ],
+            "@config": [
+                "src/config"
+            ],
+            "@config/*": [
+                "src/config/*"
+            ],
+            "@constants": [
+                "src/constants"
+            ],
+            "@constants/*": [
+                "src/constants/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "build",
+    ]
+}

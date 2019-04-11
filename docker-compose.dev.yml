@@ -1,0 +1,52 @@
+version: "3.4"
+
+x-server: &server
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  volumes:
+    - .:/usr/app/
+  environment:
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_USERNAME: my_db_user
+    DB_PASSWORD: my_db_password
+    DB_DATABASE: my_db
+  depends_on:
+    - postgres
+  links:
+    - postgres
+  # extra_hosts:
+  # - "dockerhost:$DOCKERHOST"
+
+services:
+  server:
+    <<: *server
+    command: npm run watch
+    ports:
+      - "3000:3000"
+      - "9229:9229" # for debug
+
+  postgres:
+    image: 'postgres:10.3-alpine'
+    volumes:
+      - './postgres:/var/lib/postgresql/data'
+    env_file:
+      - '.env'
+    environment:
+      - POSTGRES_USER=my_db_user
+      - POSTGRES_PASSWORD=my_db_password
+      - POSTGRES_DB=my_db
+
+  redis:
+    image: 'redis:4.0-alpine'
+    command: redis-server --appendonly yes
+    volumes:
+      - './redis:/data'
+    restart: always
+
+  transactions-worker:
+    <<: *server
+    command: "npm run worker:run ./src/workers/transactions.worker.ts | bunyan"
+
+
